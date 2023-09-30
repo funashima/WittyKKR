@@ -29,14 +29,17 @@ class ParseConfigure(object):
                 # proc for header
                 if re.search(':$', linebuf):
                     continue
-                print(linebuf)
+                self.parse_atom_definition(linebuf)
 
             elif self.region_name == 'atom_position':
                 # proc for header
                 if re.search(':$', linebuf):
                     continue
                 self.parse_atom_position(linebuf)
-        print(self.atom_positions)
+        for x in self.atom_positions:
+            print(x)
+        for x in self.atom_definitions:
+            print(x)
 
     def clear_atom_data(self):
         atom_data = {
@@ -56,6 +59,9 @@ class ParseConfigure(object):
     def parse_atom_position(self, linebuf):
         data = linebuf.split(',')
         atom_data = self.clear_atom_data()
+        #
+        # parse atomic coordinate for x, y and z
+        #
         for line in data:
             key, value = self._get_key_and_value(line)
             if key == 'atom':
@@ -80,9 +86,58 @@ class ParseConfigure(object):
             print('** warning atomic position is incorrect.')
             print(' => {}'.format(linebuf))
 
+    def parse_atom_definition(self, linebuf):
+        if ';' not in linebuf:
+            if '=' not in linebuf:
+                return
+            title, value = self._get_key_and_value(linebuf)
+            if title == 'title' or title == 'element':
+                title = value
+                atom_info = []
+                atom_info.append({'element':title, 'ratio': '1'})
+                self.atom_definitions.append({'title':title, 'atom_info':atom_info})
+            return
+
+        header, elements = linebuf.split(';')[:2]
+        #
+        # for title
+        #
+        key, value = self._get_key_and_value(header)
+        if key != 'title':
+            return
+        title = value
+        #
+        # elements
+        #
+        atom_info = []
+        if elements == '':
+            atom_info.append({'element':title, 'ratio': '1'})
+            self.atom_definitions.append({'title':title, 'atom_info':atom_info})
+            return
+        for atom in elements.split('+'):
+            element = None
+            ratio = None
+            #
+            # check keyword, elements and ratio
+            #
+            for line in atom.split(','):
+                key, value = self._get_key_and_value(line)
+                if key == 'element':
+                    element = value
+                elif key == 'ratio':
+                    ratio = value
+            if ratio is None:
+                ratio = ratio
+            if element is None:
+                print('** warning element is undifined.({})'.format(line))
+                continue
+            atom_info.append({'element': element, 'ratio': ratio})
+        self.atom_definitions.append({'title':title, 'atom_info':atom_info})
+
     def _set_init(self):
         self.region_name = None
         self.atom_positions = []
+        self.atom_definitions = []
 
     def _get_linebuf(self, line):
         return line.strip().split('#')[0]

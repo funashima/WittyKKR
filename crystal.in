@@ -1,7 +1,7 @@
 #
 # material_name
 #
-material_name = 
+material_name = FeCr
 
 # calculation type
 #   go: scf calculation(default)
@@ -29,7 +29,7 @@ outtype = update
 #   sc: simple cubic
 #   hex:
 #  
-bravais_lattice = 
+bravais_lattice = bcc 
 
 #
 # lattice
@@ -66,6 +66,7 @@ spin_polarized = True
 #
 begin_atom_def:
    title = FeCr;  element=Fe, ratio=1.0 + element=Cr, ratio=1.0
+   title = Se
 end_atom_def:
 
 begin_atom_position:
