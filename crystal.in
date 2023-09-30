@@ -1,0 +1,121 @@
+#
+# material_name
+#
+material_name = 
+
+# calculation type
+#   go: scf calculation(default)
+#   dos: density of state
+#   spm: Bloch spectrum function
+#
+calc_type = 
+
+#
+# data dir
+#
+#
+datadir = 
+
+#
+# output type
+#   update (default)
+#
+outtype = update
+
+#
+# bravais lattice 
+#   fcc: face centered cubic
+#   bcc: body centered cubic
+#   sc: simple cubic
+#   hex:
+#  
+bravais_lattice = 
+
+#
+# lattice
+#
+#   lattice_unit = bohr (default)
+#                = angstrom
+#                = nm
+lattice_unit = angstrom
+lattice = 3.48
+
+
+#
+# angle
+#
+#   angle_unit = cos (default)
+#              = degree
+angle_unit = cos
+angle = 0.0, 0.0, 0.0
+
+
+
+#
+# spin_polarized = True  (magnetic)
+#                = False (nonmagnetic, default)
+#
+spin_polarized = True
+
+
+
+#
+# definition of atoms
+#
+#
+#
+begin_atom_def:
+   title = FeCr;  element=Fe, ratio=1.0 + element=Cr, ratio=1.0
+end_atom_def:
+
+begin_atom_position:
+   atom = FeCr, x = 0,  y=x,   z=x
+end_atom_position:
+
+#====================================
+#
+# setting for scf calculation
+#
+#====================================
+
+#
+# maximum of iteration
+#
+# 
+max_iter = 50
+
+#
+# complex integration to calculate green function 
+#
+# edelta: default = 0.001
+# ewidth: default = 1.0
+#
+edelta =
+ewidth =
+
+#
+# relativistic effect
+#   none: non-relativistic effect
+#   scalor: including scalor relativistic effect
+#   spin-orbit: including scalor + spin-orbit relativistic effect
+#
+relativistic = 
+
+#
+# exchange correlation
+#  
+#
+#
+exc = 
+
+#
+# k-point sampling
+# (bzqlty)
+#
+kmesh = 
+
+#
+# mixing ration of old potential and new potential
+#   pmix = 0.01(default)
+#
+pmix = 
